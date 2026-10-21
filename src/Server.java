@@ -1,4 +1,3 @@
-
 public class Server {
     private final int id;
     private final int cpuCapacity;
@@ -13,14 +12,14 @@ public class Server {
         this.memCapacity = memCapacity;
     }
 
-    private boolean fits(Vm vm) {
-        int cpuEstimative = vm.cpu() + getCpuCapacity();
-        int memEstimative = vm.mem() + getMemCapacity();
-        return cpuEstimative <= cpuEstimative && memEstimative <= memCapacity;
+    public boolean fits(Vm vm) {
+        int cpuEstimative = vm.cpu() + getUsedCpu();
+        int memEstimative = vm.mem() + getUsedMem();
+        return cpuEstimative <= cpuCapacity && memEstimative <= memCapacity;
     }
 
     public void place(Vm vm) {
-        if (!fits(vm)) throw new IllegalArgumentException("VM: " + vm.id() + "não cabe no servidor " + getId());
+        if (!fits(vm)) throw new IllegalArgumentException("VM: " + vm.id() + " não cabe no servidor " + getId());
         this.usedCpu += vm.cpu();
         this.usedMem += vm.mem();
         this.vmCount ++;
